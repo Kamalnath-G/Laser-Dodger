@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Button menuButton;
 
     [Header("Game Variables")]
+    public TextMeshProUGUI waveText;
     public LaserSpawner laserSpawner;
     float _laserSpeed = 3;
     int _lasersToSpawn = 0;
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameOver)
         {
+            UpdateWaveText();
             if (_canSpawnNextWave && _currentWave < _waves)
             {
                 _timeUntilNextWave -= Time.deltaTime;
@@ -78,9 +81,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    void UpdateWaveText()
+    {
+        waveText.text = "Wave : " + ((short)(_currentWave + 1));
+    }
+
     IEnumerator SpawnLaserWave(int waveIndex)
     {
-        if (waveIndex >= _waves)
+        if (waveIndex > _waves)
         {
             Debug.LogWarning($"Wave index {waveIndex} is out of range.");
             yield break;
